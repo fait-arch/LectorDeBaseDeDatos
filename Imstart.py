@@ -18,19 +18,20 @@ import os
 import subprocess
 import shutil
 from colorama import Fore, Style
+import random
 
 
 Driver="ODBC Driver 17 for SQL Server"
-nombreServe     = input("Ingrese el nombre del Server: ") 
-nombreDatabase  = input("Ingrese el nombre de la DataBase: ")
+#nombreServe     = input("Ingrese el nombre del Server: ") 
+#nombreDatabase  = input("Ingrese el nombre de la DataBase: ")
 
-"""
-Serve="DESKTOP-MP8VTD9"
-Database="ImstartDataBase"
-"""
+
+nombreServer="DESKTOP-MP8VTD9"
+nombreDatabase="ImstartDataBase"
+
 
 coneccion=(f""" Driver={Driver};
-Server={nombreServe};
+Server={nombreServer};
 Database={nombreDatabase};
 Trusted_Connection=yes;""") 
 
@@ -43,10 +44,31 @@ cursor = conn.cursor()
 
 
 
-#
+
 #   Funciones
 #
-def imprimirTabla(opcion):
+#Funciones Guerfanas
+def vienvenida (nombreServer, nombreDatabase):#Imprime la Vienvenida
+    mensaje = f"""
+        ╔════════════════════════════════════════════════════════════════════════════════╗
+        ║                            {Fore.LIGHTYELLOW_EX}DETALLES DEL INGRESO{Style.RESET_ALL}                                ║ 
+        ║                           {Fore.LIGHTYELLOW_EX}-----------------------{Style.RESET_ALL}                              ║ 
+        ║                                                                                ║        
+        ║   {Fore.LIGHTMAGENTA_EX}Nombre del server{Style.RESET_ALL}                            {Fore.LIGHTMAGENTA_EX}Nombre de la base de Datos{Style.RESET_ALL}      ║    
+        ║   {nombreServer}                              {nombreDatabase}                  
+        ║                                                                                ║
+        ║                                                                                ║
+        ║                __________________                                              ║
+        ║               |   version 1.2    |                                             ║
+        ║               |__________________|                                             ║
+        ║       (●'◡'●)/                                                                   
+        ╚════════════════════════════════════════════════════════════════════════════════╝"""
+
+    # Obtener el ancho de la terminal
+    terminal_width = shutil.get_terminal_size().columns
+    # Imprimir el mensaje centrado horizontalmente
+    print(mensaje.center(terminal_width))
+def imprimirTabla(opcion):                  #Imprime los cuadros
         #
     # Consulta para imprimir la tabla antes de la inserción
     #
@@ -81,7 +103,7 @@ def imprimirTabla(opcion):
         print(f"{espaciosVacios}{bordeInferior}")        
     else:
          # Obtener el ancho de la terminal
-        terminal_width = shutil.get_terminal_size().columns
+        terminalWidth = shutil.get_terminal_size().columns
         mensagueDeVacio = f"La tabla {tablaElegida} no tiene valores"
         # Calcular el número de caracteres en el texto
         numeroCaracteres = len(mensagueDeVacio)
@@ -96,8 +118,8 @@ def imprimirTabla(opcion):
         """
         
         # Calcular el espaciado para centrar horizontalmente
-        text_width = len(message.split('\n')[2])
-        padding = (terminal_width - text_width) // 2 - 35  # 4 espacios adicionales antes del centrado
+        textWidth = len(message.split('\n')[2])
+        padding = (terminalWidth - textWidth) // 2 - 35  # 4 espacios adicionales antes del centrado
         # Imprimir el mensaje con el espaciado adecuado
         for line in message.split('\n'):
             print(' ' * padding + ' ' * 4 + line)   
@@ -131,6 +153,7 @@ def imprimirEncabezado():                   #Imprimir Cabesilla
     # Imprimir el mensaje con el espaciado adecuado
     for line in message.split('\n'):
         print(' ' * padding + ' ' * 4 + line)
+#Funciones Madres
 def imprimirTablasSQL(opcionEscojida):           #Imprime los nombres de todas las <Filas> de las <Tablas> 
     if(opcionEscojida==1):      #   Nombre de las Tablas
         # Obtener el nombre de todas las tablas
@@ -309,7 +332,7 @@ def ingresarValores(opcionEscojidaValores):             #Ingresar datos a una Ta
     #
     imprimirTabla(opcionEscojidaValores) 
 def creditos():                    #Creditos del desarollador
-    print("Opcion 5")
+    print("")
 def imprimirMenu(titulo, opciones):
     imprimirEncabezado()
     global opcionEscojida   # Variable Opcion
@@ -357,10 +380,9 @@ tituloMenuDeTablas = "Menu de las tablas 📓"
 cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
 opcionesMenuDeTablas = [row[0].replace("'", "") for row in cursor.fetchall()]
 
-tituloMenuFilas = "Menu de acciones sobre las Filas "
-opcionesMenuFilas = [
-    "-",
-    "-",
+tituloMenuInsercion = "Menu de Insercion "
+opcionesMenuInsercion = [
+    "Escojer Tabla",
     "Regresar al Inicio"
 ]
 
@@ -373,12 +395,7 @@ opcionesIngresoValores = [row[0].replace("'", "") for row in cursor.fetchall()]
 #
 imprimirEncabezado()
 
-print(f"""
-               < Vienvenido a la vercion 1.0 >
-            ..--''
-      (☞ﾟヮﾟ)☞                  ⭐♥⭐
-    ------------            ------------                 
-""")
+vienvenida (nombreServer,nombreDatabase)
 pausar()
 
 
@@ -397,7 +414,7 @@ while True:
     #
     #   Ejecucion de opcion - Proceso
     #
-    if opcionEscojidaProceso == 5:     #  Salir
+    if opcionEscojidaProceso == 4:     #  Salir
         imprimirEncabezado()  
         print("holas")  
         pausar()
@@ -417,20 +434,57 @@ while True:
             elif(opcionEscojidaTabla==3):   #Escojer e Imprimir tablas
                 imprimirTablasSQL(opcionEscojidaTabla)
                 pausar()
-            elif(opcionEscojidaTabla==4):                    
+            elif(opcionEscojidaTabla==4):   #Salir              
                 break
     elif opcionEscojidaProceso == 2:   #  Ingresar Valores 
-        imprimirMenu(tituloIngresoValores,opcionesIngresoValores)
-        opcionEscojidaValores = opcionEscojida
-        
-        ingresarValores(opcionEscojidaValores)
-        
-
-        pausar()     
+        while True:
+            imprimirMenu(tituloMenuInsercion,opcionesMenuInsercion)
+            opcionEscojidaTabla = opcionEscojida
+                                      
+            if(opcionEscojidaTabla==1):     #Imprimir nombres de las tablas                
+                imprimirMenu(tituloIngresoValores,opcionesIngresoValores)
+                opcionEscojidaValores = opcionEscojida
+                ingresarValores(opcionEscojidaValores)
+                pausar()
+            elif(opcionEscojidaTabla==2):   #Salir
+                break  
     elif opcionEscojidaProceso == 3:   #  Creditos
-     
+        # Función para generar un diseño ASCII de un cielo estrellado detallado
+        def generar_diseno():
+            ancho = 200  # Ancho del diseño
+            alto = 20  # Alto del diseño
+            diseño = ""
+
+            # Generar el cielo estrellado
+            for _ in range(alto):
+                for _ in range(ancho):
+                    # Probabilidad de generar una estrella en cada posición
+                    probabilidad_estrella = 0.1
+                    if random.random() < probabilidad_estrella:
+                        # Generar diferentes caracteres para las estrellas
+                        caracteres_estrella = ["*", " ", ".", "+"," ","⭐","☀","🌟","☄","✨"]
+                        diseño += random.choice(caracteres_estrella)
+                    else:
+                        diseño += " "
+                diseño += "\n"
+
+            # Ubicación aleatoria del corazón
+            x_corazon = random.randint(0, ancho - 5)
+            y_corazon = random.randint(0, alto - 2)
+
+            # Insertar el corazón en el diseño
+            diseño = diseño[:y_corazon * (ancho + 1) + x_corazon] + "  **  \n" + \
+                    diseño[y_corazon * (ancho + 1) + x_corazon + ancho + 1:]
+
+            return diseño
+
+        # Generar el diseño ASCII
+        disenoCielo = generar_diseno()
+
+        # Imprimir el diseño ASCII
+        print(disenoCielo)
         pausar()
-        break   
+           
 
 
 
