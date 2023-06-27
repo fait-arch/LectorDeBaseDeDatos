@@ -21,13 +21,21 @@ from colorama import Fore, Style
 import random
 
 
+
+#Ingrese Nombre del server
+nombreServer    = input("Ingrese el Nombre Server: ")
+nombreDatabase  = input("Ingrese el Nombre Database: ")
+
+#Nombre de mi server
+nombreServer="DESKTOP-MP8VTD9"
+nombreDatabase="EmpresaElectrica"
+
+
 Driver="ODBC Driver 17 for SQL Server"
 #nombreServe     = input("Ingrese el nombre del Server: ") 
 #nombreDatabase  = input("Ingrese el nombre de la DataBase: ")
 
 
-nombreServer="DESKTOP-MP8VTD9"
-nombreDatabase="ImstartDataBase"
 
 
 coneccion=(f""" Driver={Driver};
@@ -35,7 +43,8 @@ Server={nombreServer};
 Database={nombreDatabase};
 Trusted_Connection=yes;""") 
 
-print(coneccion)
+
+
 #
 #   Establecer la conexión a la base de datos
 #
@@ -280,7 +289,7 @@ def ingresarValores(opcionEscojidaValores):             #Ingresar datos a una Ta
         columnaNombre = column[0]
         columnaTipo = column[1]         
         textoDeError    = f" El valor ingresado en la columa {Fore.YELLOW}{columnaNombre}{Style.RESET_ALL} no es del tipo {Fore.BLUE}'{columnaTipo}'{Style.RESET_ALL}"  
-        if(columnaTipo=='int'):
+        if(columnaTipo=='int' ):
             while True:
                 try:
                     valor = int(input(f"\n\n\t\t\t\t😀  Ingrese el valor para la columna {Fore.YELLOW}{columnaNombre}{Style.RESET_ALL} de tipo {Fore.BLUE}'{columnaTipo}'{Style.RESET_ALL}: " ))
@@ -291,11 +300,71 @@ def ingresarValores(opcionEscojidaValores):             #Ingresar datos a una Ta
                     print(f"""  
                         {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}
                          {textoDeError}                          
+                        {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}""")   
+        elif(columnaTipo=='float' ):
+            while True:
+                try:
+                    valor = float(input(f"\n\n\t\t\t\t😀  Ingrese el valor para la columna {Fore.YELLOW}{columnaNombre}{Style.RESET_ALL} de tipo {Fore.LIGHTYELLOW_EX}'{columnaTipo}'{Style.RESET_ALL}: " ))
+                    break
+                except ValueError:
+                    # Calcular el número de caracteres en el texto
+                    numeroCaracteres = len(textoDeError)-10
+                    print(f"""  
+                        {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}
+                         {textoDeError}                          
+                        {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}""")   
+        elif(columnaTipo=='nchar' ):
+            while True:
+                try:
+                    valor = int(input(f"\n\n\t\t\t\t😀  Ingrese el valor para la columna {Fore.YELLOW}{columnaNombre}{Style.RESET_ALL} de tipo {Fore.LIGHTYELLOW_EX}'{columnaTipo}'{Style.RESET_ALL}: " ))
+                    break
+                except ValueError:
+                    # Calcular el número de caracteres en el texto
+                    numeroCaracteres = len(textoDeError)-10
+                    print(f"""  
+                        {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.MAGENTA}X{Style.RESET_ALL}
+                         {textoDeError}                          
+                        {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}""")   
+        elif(columnaTipo=='numeric' ):
+            while True:
+                try:
+                    valor = int(input(f"\n\n\t\t\t\t😀  Ingrese el valor para la columna {Fore.YELLOW}{columnaNombre}{Style.RESET_ALL} de tipo {Fore.LIGHTMAGENTA_EX}'{columnaTipo}'{Style.RESET_ALL}: " ))
+                    break
+                except ValueError:
+                    # Calcular el número de caracteres en el texto
+                    numeroCaracteres = len(textoDeError)-10
+                    print(f"""  
+                        {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}
+                         {textoDeError}                          
                         {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}""")        
-        elif(columnaTipo=='varchar'):
+        elif(columnaTipo=='varchar'):            
             while True:
                 try:
                     valor = str(input(f"\n\n\t\t\t\t😀  Ingrese el valor para la columna {Fore.YELLOW}{columnaNombre}{Style.RESET_ALL} de tipo {Fore.RED}'{columnaTipo}'{Style.RESET_ALL}: " ))
+                    break
+                except ValueError:
+                    # Calcular el número de caracteres en el texto
+                    numeroCaracteres = len(textoDeError)-10
+                    print(f"""  
+                        {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}
+                         {textoDeError}                          
+                        {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}""")
+        elif(columnaTipo=='text'):
+            while True:
+                try:
+                    valor = str(input(f"\n\n\t\t\t\t😀  Ingrese el valor para la columna {Fore.YELLOW}{columnaNombre}{Style.RESET_ALL} de tipo {Fore.RED}'{columnaTipo}'{Style.RESET_ALL}: " ))
+                    break
+                except ValueError:
+                    # Calcular el número de caracteres en el texto
+                    numeroCaracteres = len(textoDeError)-10
+                    print(f"""  
+                        {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}
+                         {textoDeError}                          
+                        {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}""")
+        elif(columnaTipo=='char'):
+            while True:
+                try:
+                    valor = str(input(f"\n\n\t\t\t\t😀  Ingrese el valor para la columna {Fore.LIGHTCYAN_EX}{columnaNombre}{Style.RESET_ALL} de tipo {Fore.RED}'{columnaTipo}'{Style.RESET_ALL}: " ))
                     break
                 except ValueError:
                     # Calcular el número de caracteres en el texto
@@ -319,7 +388,8 @@ def ingresarValores(opcionEscojidaValores):             #Ingresar datos a una Ta
     # Generar la consulta de inserción
     #insertQuery = f"INSERT INTO {NombredetablaElegida} ({', '.join(column[0] for column in columns)}) VALUES ({', '.join( str(valor) for valor in valores)})"
     insertQuery = f"insert into {NombredetablaElegida}({', '.join(column[0] for column in columns)}) values ({valoresNormalizados});"
-    print(insertQuery)
+    
+    print(f"{insertQuery}")
 
     # Insertar los valores en la tabla
     cursor.execute(insertQuery)
