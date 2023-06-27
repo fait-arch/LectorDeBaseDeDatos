@@ -27,13 +27,13 @@ import random
 #nombreDatabase  = input("Ingrese el Nombre Database: ")
 
 #Nombre de mi server
-nombreServer="DESKTOP-MP8VTD9"
-nombreDatabase="IsmartDataBasePeliculas"
+#nombreServer="DESKTOP-MP8VTD9"
+#nombreDatabase="IsmartDataBasePeliculas"
 
 
 Driver="ODBC Driver 17 for SQL Server"
-#nombreServe     = input("Ingrese el nombre del Server: ") 
-#nombreDatabase  = input("Ingrese el nombre de la DataBase: ")
+nombreServe     = input("Ingrese el nombre del Server: ") 
+nombreDatabase  = input("Ingrese el nombre de la DataBase: ")
 
 
 
