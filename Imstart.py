@@ -27,8 +27,8 @@ nombreServer    = input("Ingrese el Nombre Server: ")
 nombreDatabase  = input("Ingrese el Nombre Database: ")
 
 #Nombre de mi server
-nombreServer="DESKTOP-MP8VTD9"
-nombreDatabase="EmpresaElectrica"
+#nombreServer="DESKTOP-MP8VTD9"
+#nombreDatabase="IsmartDataBasePeliculas"
 
 
 Driver="ODBC Driver 17 for SQL Server"
@@ -57,7 +57,7 @@ cursor = conn.cursor()
 #   Funciones
 #
 #Funciones Guerfanas
-def vienvenida (nombreServer, nombreDatabase):#Imprime la Vienvenida
+def vienvenida (nombreServer, nombreDatabase):      #Imprime la Vienvenida
     mensaje = f"""
         ╔════════════════════════════════════════════════════════════════════════════════╗
         ║                            {Fore.LIGHTYELLOW_EX}DETALLES DEL INGRESO{Style.RESET_ALL}                                ║ 
@@ -68,7 +68,7 @@ def vienvenida (nombreServer, nombreDatabase):#Imprime la Vienvenida
         ║                                                                                ║
         ║                                                                                ║
         ║                __________________                                              ║
-        ║               |   version 1.2    |                                             ║
+        ║               |   version 1.5    |                                             ║
         ║               |__________________|                                             ║
         ║       (●'◡'●)/                                                                   
         ╚════════════════════════════════════════════════════════════════════════════════╝"""
@@ -77,7 +77,116 @@ def vienvenida (nombreServer, nombreDatabase):#Imprime la Vienvenida
     terminal_width = shutil.get_terminal_size().columns
     # Imprimir el mensaje centrado horizontalmente
     print(mensaje.center(terminal_width))
-def imprimirTabla(opcion):                  #Imprime los cuadros
+def imprimirEncabezado():                           #Imprimir Cabesilla
+    os.system('cls' if os.name == 'nt' else 'clear')
+    # Obtener el ancho de la terminal
+    terminal_width = shutil.get_terminal_size().columns
+
+    # Mensaje a imprimir
+    message = f"""
+    
+    
+    {Fore.GREEN}8888888                        888                     888{Style.RESET_ALL}    
+      {Fore.GREEN}888                          888                     888{Style.RESET_ALL}    
+      {Fore.GREEN}888                          888                     888{Style.RESET_ALL}    
+      {Fore.GREEN}888   88888b.d88b.  .d8888b  888888  8888b.  888d888 888888{Style.RESET_ALL} 
+      {Fore.GREEN}888   888 "888 "88b 88K      888        "88b 888P"   888{Style.RESET_ALL}    
+      {Fore.GREEN}888   888  888  888 "Y8888b. 888    .d888888 888     888{Style.RESET_ALL}    
+      {Fore.GREEN}888   888  888  888      X88 Y88b.  888  888 888     Y88b.{Style.RESET_ALL}  
+    {Fore.GREEN}8888888 888  888  888  88888P'  "Y888 "Y888888 888      "Y888{Style.RESET_ALL} 
+                                                              
+-----------------------------------------------------------------------         
+"""
+    
+    # Calcular el espaciado para centrar horizontalmente
+    text_width = len(message.split('\n')[2])
+    padding = (terminal_width - text_width) // 2 - 35  # 4 espacios adicionales antes del centrado
+    # Imprimir el mensaje con el espaciado adecuado
+    for line in message.split('\n'):
+        print(' ' * padding + ' ' * 4 + line)
+def pausar():                                       #Pausar pantalla
+    print("\n\nPresiona una tecla para continuar...")
+    msvcrt.getch()
+def imprimirTablasNombres():                        #Imprime los nombres de las tabla [1.1] 
+        # Obtener el nombre de todas las tablas
+        cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
+        tablas = [row[0] for row in cursor.fetchall()]
+
+        # Dividir las tablas en dos columnas
+        mitad = len(tablas) // 2
+        columna1 = tablas[:mitad]
+        columna2 = tablas[mitad:]
+        # Calcular el ancho máximo para cada columna
+        anchoMaximoTabla = max(max(len(tabla) for tabla in columna1), max(len(tabla) for tabla in columna2))
+        # Obtener el ancho de la terminal
+        terminalAncho = shutil.get_terminal_size().columns
+        # Calcular el margen izquierdo para centrar horizontalmente
+        margenIzquierdo = (terminalAncho - (anchoMaximoTabla + 2) * 2) // 2
+
+        # Imprimir las tablas en dos columnas con cuadros ASCII centrados
+        for tabla1, tabla2 in zip(columna1, columna2):
+            print(f"{' ' * margenIzquierdo}╔{'═' * (anchoMaximoTabla + 2)}╗  ╔{'═' * (anchoMaximoTabla + 2)}╗")
+            print(f"{' ' * margenIzquierdo}║ {tabla1:<{anchoMaximoTabla}} ║  ║ {tabla2:<{anchoMaximoTabla}} ║")
+            print(f"{' ' * margenIzquierdo}╚{'═' * (anchoMaximoTabla + 2)}╝  ╚{'═' * (anchoMaximoTabla + 2)}╝")
+        # Si hay un número impar de tablas, imprimir la última tabla en una columna
+        if len(tablas) % 2 != 0:                    
+            ultima_tabla = tablas[-1]
+            print(f"{' ' * margenIzquierdo}╔{'═' * (anchoMaximoTabla + 2)}╗\t")
+            print(f"{' ' * margenIzquierdo}║ {ultima_tabla:<{anchoMaximoTabla}} ║")
+            print(f"{' ' * margenIzquierdo}╚{'═' * (anchoMaximoTabla + 2)}╝  ")
+def imprimirTablasNombreColumna():                  #Imprime los nombres y los nombres de columnas de las tabla [1.2]
+    # Obtener el nombre de todas las tablas
+    cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
+    tablas = [row[0] for row in cursor.fetchall()]
+
+    # Dividir las tablas en dos columnas
+    n = 20      #Espacio dentro de las tablas 
+    mitad = len(tablas) // 2
+    columna1 = tablas[:mitad]
+    columna2 = tablas[mitad:]
+
+    # Obtener las columnas para cada tabla
+    columnas_por_tabla = {}
+    for tabla in tablas:
+        cursor.execute(f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tabla}'")
+        columnas = [row[0] for row in cursor.fetchall()]
+        columnas_por_tabla[tabla] = columnas
+    # Calcular el ancho máximo para cada columna
+    anchoMaximoTabla = max(max(len(tabla) for tabla in columna1), max(len(tabla) for tabla in columna2))
+    anchoMaximoColumna = max(max(len(columna) for columna in columnas_por_tabla[tabla]) for tabla in tablas)
+    # Obtener el ancho de la terminal
+    terminalAncho = shutil.get_terminal_size().columns
+    # Calcular el margen izquierdo para centrar horizontalmente
+    margenIzquierdo = (terminalAncho - (anchoMaximoColumna + 2) * 2) // 2
+
+    # Imprimir las tablas y sus columnas en cuadros ASCII centrados
+    for tabla1, tabla2 in zip(columna1, columna2):
+        # Cuadro ASCII para la tabla1
+        print(f"{' ' * margenIzquierdo}╔{'═' * (anchoMaximoTabla + n)}╗  ╔{'═' * (anchoMaximoTabla + n)}╗")
+        print(f"{' ' * margenIzquierdo}║{tabla1:^{anchoMaximoTabla + n}}║  ║{tabla2:^{anchoMaximoTabla + n}}║")
+        print(f"{' ' * margenIzquierdo}╠{'═' * (anchoMaximoTabla + n)}╣  ╠{'═' * (anchoMaximoTabla + n)}╣")
+        columnas_tabla1 = columnas_por_tabla[tabla1]
+        columnas_tabla2 = columnas_por_tabla[tabla2]
+        max_columnas = max(len(columnas_tabla1), len(columnas_tabla2))
+        for i in range(max_columnas):
+            columna1 = columnas_tabla1[i] if i < len(columnas_tabla1) else ''
+            columna2 = columnas_tabla2[i] if i < len(columnas_tabla2) else ''
+            print(f"{' ' * margenIzquierdo}║ {columna1:<{anchoMaximoColumna}} ║  ║ {columna2:<{anchoMaximoColumna}} ║")
+            
+        print(f"{' ' * margenIzquierdo}╚{'═' * (anchoMaximoTabla + n)}╝  ╚{'═' * (anchoMaximoTabla + n)}╝\n")
+
+    # Si hay un número impar de tablas, imprimir la última tabla en un cuadro ASCII separado
+    if len(tablas) % 2 != 0:
+        ultimaTabla = tablas[-1]
+        print(f"{' ' * margenIzquierdo}╔{'═' * (anchoMaximoTabla + n)}╗  ")
+        print(f"{' ' * margenIzquierdo}║{ultimaTabla:^{anchoMaximoTabla+n}}║  ")
+        print(f"{' ' * margenIzquierdo}╠{'═' * (anchoMaximoTabla + n)}╣  ")
+        
+        columnasUltimaTabla = columnas_por_tabla[ultimaTabla]
+        for columna in columnasUltimaTabla:
+            print(f"{' ' * margenIzquierdo}║ {columna:<{anchoMaximoColumna}} ║  ")                
+        print(f"{' ' * margenIzquierdo}╚{'═' * (anchoMaximoTabla + n)}╝  ")
+def imprimirTablaEscojida(opcion):                  #Imprime la tabla escojida con sus valores [1.3]
         #
     # Consulta para imprimir la tabla antes de la inserción
     #
@@ -131,150 +240,8 @@ def imprimirTabla(opcion):                  #Imprime los cuadros
         padding = (terminalWidth - textWidth) // 2 - 35  # 4 espacios adicionales antes del centrado
         # Imprimir el mensaje con el espaciado adecuado
         for line in message.split('\n'):
-            print(' ' * padding + ' ' * 4 + line)   
-def pausar():                               #Pausar pantalla
-    print("\n\nPresiona una tecla para continuar...")
-    msvcrt.getch()
-def imprimirEncabezado():                   #Imprimir Cabesilla
-    os.system('cls' if os.name == 'nt' else 'clear')
-    # Obtener el ancho de la terminal
-    terminal_width = shutil.get_terminal_size().columns
-
-    # Mensaje a imprimir
-    message = f"""
-    
-    
-    {Fore.GREEN}8888888                        888                     888{Style.RESET_ALL}    
-      {Fore.GREEN}888                          888                     888{Style.RESET_ALL}    
-      {Fore.GREEN}888                          888                     888{Style.RESET_ALL}    
-      {Fore.GREEN}888   88888b.d88b.  .d8888b  888888  8888b.  888d888 888888{Style.RESET_ALL} 
-      {Fore.GREEN}888   888 "888 "88b 88K      888        "88b 888P"   888{Style.RESET_ALL}    
-      {Fore.GREEN}888   888  888  888 "Y8888b. 888    .d888888 888     888{Style.RESET_ALL}    
-      {Fore.GREEN}888   888  888  888      X88 Y88b.  888  888 888     Y88b.{Style.RESET_ALL}  
-    {Fore.GREEN}8888888 888  888  888  88888P'  "Y888 "Y888888 888      "Y888{Style.RESET_ALL} 
-                                                              
------------------------------------------------------------------------         
-"""
-    
-    # Calcular el espaciado para centrar horizontalmente
-    text_width = len(message.split('\n')[2])
-    padding = (terminal_width - text_width) // 2 - 35  # 4 espacios adicionales antes del centrado
-    # Imprimir el mensaje con el espaciado adecuado
-    for line in message.split('\n'):
-        print(' ' * padding + ' ' * 4 + line)
-#Funciones Madres
-def imprimirTablasSQL(opcionEscojida):           #Imprime los nombres de todas las <Filas> de las <Tablas> 
-    if(opcionEscojida==1):      #   Nombre de las Tablas
-        # Obtener el nombre de todas las tablas
-        cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
-        tablas = [row[0] for row in cursor.fetchall()]
-
-        # Dividir las tablas en dos columnas
-        mitad = len(tablas) // 2
-        columna1 = tablas[:mitad]
-        columna2 = tablas[mitad:]
-        # Calcular el ancho máximo para cada columna
-        anchoMaximo = max(max(len(tabla) for tabla in columna1), max(len(tabla) for tabla in columna2))
-        # Obtener el ancho de la terminal
-        terminalAncho = shutil.get_terminal_size().columns
-        # Calcular el margen izquierdo para centrar horizontalmente
-        margenIzquierdo = (terminalAncho - (anchoMaximo + 2) * 2) // 2
-
-        # Imprimir las tablas en dos columnas con cuadros ASCII centrados
-        for tabla1, tabla2 in zip(columna1, columna2):
-            print(f"{' ' * margenIzquierdo}╔{'═' * (anchoMaximo + 2)}╗  ╔{'═' * (anchoMaximo + 2)}╗")
-            print(f"{' ' * margenIzquierdo}║ {tabla1:<{anchoMaximo}} ║  ║ {tabla2:<{anchoMaximo}} ║")
-            print(f"{' ' * margenIzquierdo}╚{'═' * (anchoMaximo + 2)}╝  ╚{'═' * (anchoMaximo + 2)}╝")
-        # Si hay un número impar de tablas, imprimir la última tabla en una columna
-        if len(tablas) % 2 != 0:                    
-            ultima_tabla = tablas[-1]
-            print(f"{' ' * margenIzquierdo}╔{'═' * (anchoMaximo + 2)}╗\t")
-            print(f"{' ' * margenIzquierdo}║ {ultima_tabla:<{anchoMaximo}} ║")
-            print(f"{' ' * margenIzquierdo}╚{'═' * (anchoMaximo + 2)}╝  ")
-    elif(opcionEscojida==2):    #   Nombre de las Tablas con nombres de sus columnas                  
-
-    
-        # Obtener el nombre de todas las tablas
-        cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
-        tablas = [row[0] for row in cursor.fetchall()]
-
-        # Dividir las tablas en dos columnas
-        n = 14      #Espacio dentro de las tablas 
-        mitad = len(tablas) // 2
-        columna1 = tablas[:mitad]
-        columna2 = tablas[mitad:]
-
-        # Obtener las columnas para cada tabla
-        columnas_por_tabla = {}
-        for tabla in tablas:
-            cursor.execute(f"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tabla}'")
-            columnas = [row[0] for row in cursor.fetchall()]
-            columnas_por_tabla[tabla] = columnas
-        # Calcular el ancho máximo para cada columna
-        anchoMaximoTabla = max(max(len(tabla) for tabla in columna1), max(len(tabla) for tabla in columna2))
-        anchoMaximoColumna = max(max(len(columna) for columna in columnas_por_tabla[tabla]) for tabla in tablas)
-        # Obtener el ancho de la terminal
-        terminalAncho = shutil.get_terminal_size().columns
-        # Calcular el margen izquierdo para centrar horizontalmente
-        margenIzquierdo = (terminalAncho - (anchoMaximoColumna + 2) * 2) // 2
-
-        # Imprimir las tablas y sus columnas en cuadros ASCII centrados
-        for tabla1, tabla2 in zip(columna1, columna2):
-            # Cuadro ASCII para la tabla1
-            print(f"{' ' * margenIzquierdo}╔{'═' * (anchoMaximoTabla + n)}╗  ╔{'═' * (anchoMaximoTabla + n)}╗")
-            print(f"{' ' * margenIzquierdo}║{tabla1:^{anchoMaximoTabla + n}}║  ║{tabla2:^{anchoMaximoTabla + n}}║")
-            print(f"{' ' * margenIzquierdo}╠{'═' * (anchoMaximoTabla + n)}╣  ╠{'═' * (anchoMaximoTabla + n)}╣")
-            columnas_tabla1 = columnas_por_tabla[tabla1]
-            columnas_tabla2 = columnas_por_tabla[tabla2]
-            max_columnas = max(len(columnas_tabla1), len(columnas_tabla2))
-            for i in range(max_columnas):
-                columna1 = columnas_tabla1[i] if i < len(columnas_tabla1) else ''
-                columna2 = columnas_tabla2[i] if i < len(columnas_tabla2) else ''
-                print(f"{' ' * margenIzquierdo}║ {columna1:<{anchoMaximoColumna}} ║  ║ {columna2:<{anchoMaximoColumna}} ║")
-                
-            print(f"{' ' * margenIzquierdo}╚{'═' * (anchoMaximoTabla + n)}╝  ╚{'═' * (anchoMaximoTabla + n)}╝\n")
-
-        # Si hay un número impar de tablas, imprimir la última tabla en un cuadro ASCII separado
-        if len(tablas) % 2 != 0:
-            ultimaTabla = tablas[-1]
-            print(f"{' ' * margenIzquierdo}╔{'═' * (anchoMaximoTabla + n)}╗  ")
-            print(f"{' ' * margenIzquierdo}║{ultimaTabla:^{anchoMaximoTabla+n}}║  ")
-            print(f"{' ' * margenIzquierdo}╠{'═' * (anchoMaximoTabla + n)}╣  ")
-            
-            columnasUltimaTabla = columnas_por_tabla[ultimaTabla]
-            for columna in columnasUltimaTabla:
-                print(f"{' ' * margenIzquierdo}║ {columna:<{anchoMaximoColumna}} ║  ")                
-            print(f"{' ' * margenIzquierdo}╚{'═' * (anchoMaximoTabla + n)}╝  ")
-    elif(opcionEscojida==3):    #   Escoje la Tabla
-        imprimirEncabezado()
-        
-        opcionEscojidaNombreTabla = imprimirMenu(tituloMenuDeTablas, opcionesMenuDeTablas)
-        
-        imprimirTabla(opcionEscojidaNombreTabla)
-def imprimirFilasSQL():            #Imprimir <Nombre> de las <Tablas>
-    #Igualaciones
-    n=0
-    imprimirEncabezado()
-
-    print("\n\n*-- Imprimier todas las filas --* \n")
-    #Modifique el script para que seleccione todas las filas de todas las tablas e imprima los resultados en la consola IDLE.
-    # Obtener el nombre de todas las tablas en la base de datos
-    tables = [table.table_name for table in cursor.tables(tableType='TABLE')]
-    # Iterar sobre cada tabla y seleccionar solo las que están dentro de la carpeta "Tables"
-    for table in tables:
-        n+=1
-        print(f"Tabla {n}: {table}") 
-def ingresarValores(opcionEscojidaValores):             #Ingresar datos a una Tabla 
-    #
-    # Consulta para imprimir la tabla ANTES de la inserción
-    #
-    imprimirTabla(opcionEscojidaValores) 
-
-
-
-    #
-    # Consulta de inserción
-    #
+            print(' ' * padding + ' ' * 4 + line)  
+def ingresoDatosaTabla():                           #Ingresa la tabla escojida [2.1]
     #Nombre de tabla a la que hacer la insecion
     cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
     NombredetablaElegida = opcionesMenuDeTablas[(opcionEscojidaValores-1)]
@@ -328,15 +295,16 @@ def ingresarValores(opcionEscojidaValores):             #Ingresar datos a una Ta
         elif(columnaTipo=='numeric' ):
             while True:
                 try:
-                    valor = int(input(f"\n\n\t\t\t\t😀  Ingrese el valor para la columna {Fore.YELLOW}{columnaNombre}{Style.RESET_ALL} de tipo {Fore.LIGHTMAGENTA_EX}'{columnaTipo}'{Style.RESET_ALL}: " ))
+                    valor = input(f"\n\n\t\t\t\t😀  Ingrese el valor para la columna {Fore.YELLOW}{columnaNombre}{Style.RESET_ALL} de tipo {Fore.LIGHTMAGENTA_EX}'{columnaTipo}'{Style.RESET_ALL}: ")
+                    valor = int(valor) if "." not in valor else float(valor)  # Intenta convertir a int, si no es posible, convierte a float
                     break
                 except ValueError:
                     # Calcular el número de caracteres en el texto
                     numeroCaracteres = len(textoDeError)-10
                     print(f"""  
                         {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}
-                         {textoDeError}                          
-                        {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}""")        
+                        {textoDeError}                          
+                        {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}""")
         elif(columnaTipo=='varchar'):            
             while True:
                 try:
@@ -373,6 +341,9 @@ def ingresarValores(opcionEscojidaValores):             #Ingresar datos a una Ta
                         {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}
                          {textoDeError}                          
                         {Fore.RED}X{Style.RESET_ALL} {f"{Fore.LIGHTMAGENTA_EX}={Style.RESET_ALL}" *(numeroCaracteres)} {Fore.RED}X{Style.RESET_ALL}""")
+        
+        """PUNTO DE MEJORA -  
+                Ingresar n valores a la tabla hasta decir basta"""
         valores.append(valor)
     
     #
@@ -383,29 +354,105 @@ def ingresarValores(opcionEscojidaValores):             #Ingresar datos a una Ta
         else:
             valoresNormalizados += str(elemento)        
         if i < len(valores) - 1:
-            valoresNormalizados += ","
-
+            valoresNormalizados += ", "
     # Generar la consulta de inserción
-    #insertQuery = f"INSERT INTO {NombredetablaElegida} ({', '.join(column[0] for column in columns)}) VALUES ({', '.join( str(valor) for valor in valores)})"
     insertQuery = f"insert into {NombredetablaElegida}({', '.join(column[0] for column in columns)}) values ({valoresNormalizados});"
-    
-    print(f"{insertQuery}")
+    # Ver Como se escribe la insercion
+    print(f"""
+          --------------------------------
+          {Fore.LIGHTYELLOW_EX}La insercion se vera asi: 
+          {insertQuery}{Style.RESET_ALL}
+          """)
+    print(f"""\n\n\t\t\t\t ⁉ 😮 ¿Estás seguro de que quieres guardar los siguientes valores? 🚨🚨⁉:""")
+    #Imprime los nombre de las columnas con los valores ingresados por el usurio
+    for i, column in enumerate(columns):
+        columnaNombre = column[0]
+        valorIngresado = valores[i]
+        print(f"\t\t\t\t\t- {columnaNombre}: {valorIngresado}")
+    #Valida y pregunta si guardar o no
+    while True:
+        guardar = input(f"""\n\n\t\t\t\t ⁉ 😳 {Fore.BLUE}Respuesta [{Fore.GREEN}s{Style.RESET_ALL}{Fore.BLUE}/{Style.RESET_ALL}{Fore.RED}n{Style.RESET_ALL}{Fore.BLUE}]{Style.RESET_ALL}  {Fore.BLUE}o [{Style.RESET_ALL}{Fore.MAGENTA}E{Style.RESET_ALL}{Fore.BLUE}]:{Style.RESET_ALL}  """)
+        guardar = guardar.lower()
+        if guardar == 's' or guardar == 'n' or guardar == 'e':
+            break
+        else:
+            print(f"\n\t{Fore.RED}Error:{Style.RESET_ALL} Opción inválida. Por favor, ingresa 's' o 'n'. Inténtalo nuevamente.")            
+    if(guardar=='s'):
+        try:
+            #Mensague de accion
+            
+            # Insertar los valores en la tabla
+            cursor.execute(insertQuery)
+            conn.commit()
+        except pyodbc.IntegrityError as e:
+            #Mensague de accion
+            error_message = str(e)
+            print(f"\n{Fore.RED}Error al insertar los valores en la tabla:{Style.RESET_ALL}")
+            print(f"{error_message}")
+            print(f"\n{Fore.LIGHTMAGENTA_EX}El {Fore.RED}Error:{Style.RESET_ALL} {Fore.LIGHTMAGENTA_EX} se causa por que se REPITIO una llave PRIMRAIR {Style.RESET_ALL}\n\n")
+        else:
+            print(f"\n{Fore.GREEN}Insercion de los valores CORRECTOS en la tabla:{Style.RESET_ALL}")
+    if(guardar=='n'):
+        ingresoDatosaTabla()
+    if(guardar=='e'):
+       pausar()
 
-    # Insertar los valores en la tabla
-    cursor.execute(insertQuery)
-    conn.commit()
+
+    #
+    #
+    #
+
+def generarDiseno():                                #Genera Estrellas
+    ancho = 200  # Ancho del diseño
+    alto = 20  # Alto del diseño
+    diseño = ""
     
 
 
     #
-    # Consulta para imprimir la tabla después de la inserción
+    # Generar el cielo estrellado
     #
-    imprimirTabla(opcionEscojidaValores) 
-def creditos():                    #Creditos del desarollador
-    print("")
-def imprimirMenu(titulo, opciones):
-    imprimirEncabezado()
+    for _ in range(alto):
+        for _ in range(ancho):
+            # Probabilidad de generar una estrella en cada posición
+            probabilidadEstrella = 0.1
+            if random.random() < probabilidadEstrella:
+                # Generar diferentes caracteres para las estrellas
+                probabilidadEstrella = ["*", " ", ".", "+"," ","⭐","☀","🌟","☄","✨"]
+                diseño += random.choice(probabilidadEstrella)
+            else:
+                diseño += " "
+        diseño += "\n"
+
+
+
+    #
+    # Ubicación aleatoria del corazón
+    #
+    xCorazon = random.randint(0, ancho - 5)
+    yCorazon = random.randint(0, alto - 2)
+
+
+
+    #
+    # Insertar el corazón en el diseño
+    #
+    diseño = diseño[:yCorazon * (ancho + 1) + xCorazon] + "  **  \n" + \
+            diseño[yCorazon * (ancho + 1) + xCorazon + ancho + 1:]
+    return diseño
+    #-----------
+#Funciones Madres
+def imprimirMenu(titulo, opciones):                 #Imprime Menu de Opciones
     global opcionEscojida   # Variable Opcion
+    
+    #
+    # Encabezado
+    #
+    imprimirEncabezado()
+    
+    #
+    # Imprecion de Titulo y Opciones
+    #
     print(f"""          
             \t{Fore.LIGHTWHITE_EX}============================================================={Style.RESET_ALL}
                                 {Fore.RED}{titulo}{Style.RESET_ALL}
@@ -414,7 +461,10 @@ def imprimirMenu(titulo, opciones):
         print(f"\t\t\t{Fore.GREEN}[{i}.]{Style.RESET_ALL} {opcion}")
     print(f"""\t\t{Fore.LIGHTWHITE_EX}============================================================={Style.RESET_ALL}\n""")
 
-    while True:         # Ingresa opcion
+    #
+    # Ingresa opcion
+    #
+    while True:         # Validacion
         try:
             opcionEscojida = int(input(f"\t\t ⭐ {Fore.GREEN}Ingresa un número entre 1 y {len(opciones)}: {Style.RESET_ALL}"))
             if opcionEscojida < 1 or opcionEscojida > len(opciones):
@@ -424,6 +474,39 @@ def imprimirMenu(titulo, opciones):
             print(f"\n\t\t\t\t  {Fore.RED}❗❗Error:{Style.RESET_ALL} {Fore.LIGHTWHITE_EX}El valor ingresado está fuera del rango válido. !{Style.RESET_ALL} \n")
     
     return opcionEscojida
+def imprimirTablasSQL(opcionEscojida):              #Sube Menu [1]
+    if(opcionEscojida==1):      #Imprime los nombres de las tabla [1.1]
+        imprimirTablasNombres()
+    elif(opcionEscojida==2):    #Imprime los nombres y los nombres de columnas de las tabla [1.2]                  
+        #
+        # Imprecion de Tabla
+        #
+        imprimirTablasNombreColumna()     
+    elif(opcionEscojida==3):    #Imprime la tabla escojida con sus valores [1.3]
+        imprimirEncabezado()
+        
+        opcionEscojidaNombreTabla = imprimirMenu(tituloMenuDeTablas, opcionesMenuDeTablas)
+        
+        imprimirTablaEscojida(opcionEscojidaNombreTabla)
+def ingresarValores(opcionEscojidaValores):         #Proceso de Insercion
+    #
+    # Consulta para imprimir la tabla ANTES de la inserción
+    #
+    imprimirTablaEscojida(opcionEscojidaValores) 
+
+
+
+    #
+    # Consulta de inserción
+    #
+    ingresoDatosaTabla()
+
+
+    #
+    # Consulta para imprimir la tabla después de la inserción
+    #
+    imprimirTablaEscojida(opcionEscojidaValores) 
+
 
 
 
@@ -459,6 +542,8 @@ opcionesMenuInsercion = [
 tituloIngresoValores = "A que tabla Ingresamos 📓"
 cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
 opcionesIngresoValores = [row[0].replace("'", "") for row in cursor.fetchall()]
+
+
 
 #
 #   Mensague de Bienbenida
@@ -519,37 +604,8 @@ while True:
             elif(opcionEscojidaTabla==2):   #Salir
                 break  
     elif opcionEscojidaProceso == 3:   #  Creditos
-        # Función para generar un diseño ASCII de un cielo estrellado detallado
-        def generar_diseno():
-            ancho = 200  # Ancho del diseño
-            alto = 20  # Alto del diseño
-            diseño = ""
-
-            # Generar el cielo estrellado
-            for _ in range(alto):
-                for _ in range(ancho):
-                    # Probabilidad de generar una estrella en cada posición
-                    probabilidad_estrella = 0.1
-                    if random.random() < probabilidad_estrella:
-                        # Generar diferentes caracteres para las estrellas
-                        caracteres_estrella = ["*", " ", ".", "+"," ","⭐","☀","🌟","☄","✨"]
-                        diseño += random.choice(caracteres_estrella)
-                    else:
-                        diseño += " "
-                diseño += "\n"
-
-            # Ubicación aleatoria del corazón
-            x_corazon = random.randint(0, ancho - 5)
-            y_corazon = random.randint(0, alto - 2)
-
-            # Insertar el corazón en el diseño
-            diseño = diseño[:y_corazon * (ancho + 1) + x_corazon] + "  **  \n" + \
-                    diseño[y_corazon * (ancho + 1) + x_corazon + ancho + 1:]
-
-            return diseño
-
         # Generar el diseño ASCII
-        disenoCielo = generar_diseno()
+        disenoCielo = generarDiseno()
 
         # Imprimir el diseño ASCII
         print(disenoCielo)
@@ -563,6 +619,4 @@ while True:
 #
 
 conn.close()
-#
-
 conn.close()
