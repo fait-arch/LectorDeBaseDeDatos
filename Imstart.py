@@ -23,8 +23,8 @@ import random
 
 
 #Ingrese Nombre del server
-nombreServer    = input("Ingrese el Nombre Server: ")
-nombreDatabase  = input("Ingrese el Nombre Database: ")
+#nombreServer    = input("Ingrese el Nombre Server: ")
+#nombreDatabase  = input("Ingrese el Nombre Database: ")
 
 #Nombre de mi server
 #nombreServer="DESKTOP-MP8VTD9"
@@ -32,8 +32,8 @@ nombreDatabase  = input("Ingrese el Nombre Database: ")
 
 
 Driver="ODBC Driver 17 for SQL Server"
-#nombreServe     = input("Ingrese el nombre del Server: ") 
-#nombreDatabase  = input("Ingrese el nombre de la DataBase: ")
+nombreServe     = input("Ingrese el nombre del Server: ") 
+nombreDatabase  = input("Ingrese el nombre de la DataBase: ")
 
 
 
@@ -68,7 +68,7 @@ def vienvenida (nombreServer, nombreDatabase):      #Imprime la Vienvenida
         ║                                                                                ║
         ║                                                                                ║
         ║                __________________                                              ║
-        ║               |   version 1.5    |                                             ║
+        ║               |   version 1.2    |                                             ║
         ║               |__________________|                                             ║
         ║       (●'◡'●)/                                                                   
         ╚════════════════════════════════════════════════════════════════════════════════╝"""
@@ -387,10 +387,12 @@ def ingresoDatosaTabla():                           #Ingresa la tabla escojida [
         except pyodbc.IntegrityError as e:
             #Mensague de accion
             error_message = str(e)
+            funciono=0
             print(f"\n{Fore.RED}Error al insertar los valores en la tabla:{Style.RESET_ALL}")
             print(f"{error_message}")
             print(f"\n{Fore.LIGHTMAGENTA_EX}El {Fore.RED}Error:{Style.RESET_ALL} {Fore.LIGHTMAGENTA_EX} se causa por que se REPITIO una llave PRIMRAIR {Style.RESET_ALL}\n\n")
         else:
+            funciono=1
             print(f"\n{Fore.GREEN}Insercion de los valores CORRECTOS en la tabla:{Style.RESET_ALL}")
     if(guardar=='n'):
         ingresoDatosaTabla()
@@ -401,6 +403,7 @@ def ingresoDatosaTabla():                           #Ingresa la tabla escojida [
     #
     #
     #
+    return funciono
 
 def generarDiseno():                                #Genera Estrellas
     ancho = 200  # Ancho del diseño
@@ -489,6 +492,7 @@ def imprimirTablasSQL(opcionEscojida):              #Sube Menu [1]
         
         imprimirTablaEscojida(opcionEscojidaNombreTabla)
 def ingresarValores(opcionEscojidaValores):         #Proceso de Insercion
+    funciono=0
     #
     # Consulta para imprimir la tabla ANTES de la inserción
     #
@@ -505,7 +509,8 @@ def ingresarValores(opcionEscojidaValores):         #Proceso de Insercion
     #
     # Consulta para imprimir la tabla después de la inserción
     #
-    imprimirTablaEscojida(opcionEscojidaValores) 
+    if(funciono==1):
+        imprimirTablaEscojida(opcionEscojidaValores) 
 
 
 
@@ -618,5 +623,4 @@ while True:
 #   Cerrar la conexión a la base de datos
 #
 
-conn.close()
 conn.close()
