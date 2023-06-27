@@ -27,13 +27,13 @@ import random
 #nombreDatabase  = input("Ingrese el Nombre Database: ")
 
 #Nombre de mi server
-#nombreServer="DESKTOP-MP8VTD9"
-#nombreDatabase="IsmartDataBasePeliculas"
+nombreServer="DESKTOP-MP8VTD9"
+nombreDatabase="IsmartDataBasePeliculas"
 
 
 Driver="ODBC Driver 17 for SQL Server"
-nombreServe     = input("Ingrese el nombre del Server: ") 
-nombreDatabase  = input("Ingrese el nombre de la DataBase: ")
+#nombreServe     = input("Ingrese el nombre del Server: ") 
+#nombreDatabase  = input("Ingrese el nombre de la DataBase: ")
 
 
 
@@ -242,6 +242,7 @@ def imprimirTablaEscojida(opcion):                  #Imprime la tabla escojida c
         for line in message.split('\n'):
             print(' ' * padding + ' ' * 4 + line)  
 def ingresoDatosaTabla():                           #Ingresa la tabla escojida [2.1]
+    global funciono
     #Nombre de tabla a la que hacer la insecion
     cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
     NombredetablaElegida = opcionesMenuDeTablas[(opcionEscojidaValores-1)]
@@ -400,6 +401,18 @@ def ingresoDatosaTabla():                           #Ingresa la tabla escojida [
        pausar()
 
 
+    while True:
+        repetir = input(f"""\n\n\t\t\t\t ⁉ 😳 Ingresamos un valor mas en la misma columna uwu? [{Fore.GREEN}s{Style.RESET_ALL}{Fore.BLUE}/{Style.RESET_ALL}{Fore.RED}n{Style.RESET_ALL}{Fore.BLUE}]{Style.RESET_ALL}  {Fore.BLUE}o [{Style.RESET_ALL}{Fore.MAGENTA}E{Style.RESET_ALL}{Fore.BLUE}]:  {Style.RESET_ALL}""")
+        repetir = repetir.lower()
+        if repetir == 's':
+            ingresoDatosaTabla()
+        elif repetir == 'n':        
+            break
+        else:
+            print(f"\n\t\t\t\t{Fore.RED}Error:{Style.RESET_ALL} Opción inválida. Por favor, ingresa 's' o 'n'. Inténtalo nuevamente.")
+
+
+
     #
     #
     #
@@ -491,8 +504,7 @@ def imprimirTablasSQL(opcionEscojida):              #Sube Menu [1]
         opcionEscojidaNombreTabla = imprimirMenu(tituloMenuDeTablas, opcionesMenuDeTablas)
         
         imprimirTablaEscojida(opcionEscojidaNombreTabla)
-def ingresarValores(opcionEscojidaValores):         #Proceso de Insercion
-    funciono=0
+def ingresarValores(opcionEscojidaValores):         #Proceso de Insercion    
     #
     # Consulta para imprimir la tabla ANTES de la inserción
     #
