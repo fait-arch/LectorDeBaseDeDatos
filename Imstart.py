@@ -3,7 +3,10 @@
                     jub1101 - Juan Moromenacho                
 
     Orden:
-
+        El código proporcionado es un programa destinado a la interaccion con una base de datos.
+        Ofrece opciones para imprimir tablas y ver datos organizados, ingresar valores adicionales en la base de 
+        datos, y opciones para salir del programa. 
+        Es una herramienta conveniente para explorar y administrar datos de manera rapido.
     
 '''
 
@@ -27,13 +30,13 @@ import random
 #nombreDatabase  = input("Ingrese el Nombre Database: ")
 
 #Nombre de mi server
-#nombreServer="DESKTOP-MP8VTD9"
-#nombreDatabase="IsmartDataBasePeliculas"
+nombreServer="DESKTOP-MP8VTD9"
+nombreDatabase="IsmartDataBasePeliculas"
 
 
 Driver="ODBC Driver 17 for SQL Server"
-nombreServe     = input("Ingrese el nombre del Server: ") 
-nombreDatabase  = input("Ingrese el nombre de la DataBase: ")
+#nombreServe     = input("Ingrese el nombre del Server: ") 
+#nombreDatabase  = input("Ingrese el nombre de la DataBase: ")
 
 
 
@@ -95,8 +98,8 @@ def imprimirEncabezado():                           #Imprimir Cabesilla
       {Fore.GREEN}888   888  888  888      X88 Y88b.  888  888 888     Y88b.{Style.RESET_ALL}  
     {Fore.GREEN}8888888 888  888  888  88888P'  "Y888 "Y888888 888      "Y888{Style.RESET_ALL} 
                                                               
------------------------------------------------------------------------         
-"""
+    -----------------------------------------------------------------------         
+    """
     
     # Calcular el espaciado para centrar horizontalmente
     text_width = len(message.split('\n')[2])
@@ -111,6 +114,7 @@ def imprimirTablasNombres():                        #Imprime los nombres de las 
         # Obtener el nombre de todas las tablas
         cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
         tablas = [row[0] for row in cursor.fetchall()]
+        tablas.remove("sysdiagrams")
 
         # Dividir las tablas en dos columnas
         mitad = len(tablas) // 2
@@ -138,9 +142,10 @@ def imprimirTablasNombreColumna():                  #Imprime los nombres y los n
     # Obtener el nombre de todas las tablas
     cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
     tablas = [row[0] for row in cursor.fetchall()]
+    tablas.remove("sysdiagrams")
 
     # Dividir las tablas en dos columnas
-    n = 20      #Espacio dentro de las tablas 
+    n = 21      #Espacio dentro de las tablas 
     mitad = len(tablas) // 2
     columna1 = tablas[:mitad]
     columna2 = tablas[mitad:]
@@ -187,7 +192,7 @@ def imprimirTablasNombreColumna():                  #Imprime los nombres y los n
             print(f"{' ' * margenIzquierdo}║ {columna:<{anchoMaximoColumna}} ║  ")                
         print(f"{' ' * margenIzquierdo}╚{'═' * (anchoMaximoTabla + n)}╝  ")
 def imprimirTablaEscojida(opcion):                  #Imprime la tabla escojida con sus valores [1.3]
-        #
+    #
     # Consulta para imprimir la tabla antes de la inserción
     #
     cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
@@ -196,6 +201,8 @@ def imprimirTablaEscojida(opcion):                  #Imprime la tabla escojida c
     columns = [column.column_name for column in cursor.columns(table=tablaElegida)]
     cursor.execute(f"SELECT * FROM {tablaElegida}")
     rows = cursor.fetchall()
+
+
 
     if rows:
         # Calcular el ancho máximo de la columna de nombres y valores
@@ -546,19 +553,20 @@ opcionesMenuTablas = [
     "Regresar al Inicio"
 ]
 
-tituloMenuDeTablas = "Menu de las tablas 📓" 
-cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
-opcionesMenuDeTablas = [row[0].replace("'", "") for row in cursor.fetchall()]
-
 tituloMenuInsercion = "Menu de Insercion "
 opcionesMenuInsercion = [
     "Escojer Tabla",
     "Regresar al Inicio"
 ]
 
+tituloMenuDeTablas = "Menu de las tablas 📓" 
+cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
+opcionesMenuDeTablas = [row[0].replace("'", "") for row in cursor.fetchall() if row[0] != "sysdiagrams"]
+
+
 tituloIngresoValores = "A que tabla Ingresamos 📓"
 cursor.execute("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'")
-opcionesIngresoValores = [row[0].replace("'", "") for row in cursor.fetchall()]
+opcionesIngresoValores = [row[0].replace("'", "") for row in cursor.fetchall() if row[0] != "sysdiagrams"]
 
 
 
@@ -588,7 +596,7 @@ while True:
     #
     if opcionEscojidaProceso == 4:     #  Salir
         imprimirEncabezado()  
-        print("holas")  
+        print("Y el juego se terminó, y el jugador despertó del sueño. Y el jugador empezó un nuevo sueño. Y el jugador soñó otra vez, soñó mejor. Y el jugador fue el universo. Y el jugador fue el amor.")  
         pausar()
         subprocess.call("taskkill /F /IM cmd.exe")
         break        
@@ -604,6 +612,7 @@ while True:
                 imprimirTablasSQL(opcionEscojidaTabla)
                 pausar()
             elif(opcionEscojidaTabla==3):   #Escojer e Imprimir tablas
+                print(opcionEscojidaTabla)
                 imprimirTablasSQL(opcionEscojidaTabla)
                 pausar()
             elif(opcionEscojidaTabla==4):   #Salir              
