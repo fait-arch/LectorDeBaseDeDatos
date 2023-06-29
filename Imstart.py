@@ -8,7 +8,8 @@
         datos, y opciones para salir del programa, . 
         Es una herramienta conveniente para explorar y administrar datos de manera rapido.
 
-        El prgrama fue desarollado por Nico y Juan
+        El prgrama fue desarollado por jub1101 y cnlund/Nico Luna, jub1101 se encargo del desarollo del pryecto y cnlund
+        en la correcion de errores para el ingreso de datos y fue crucial en la 
 '''
 
 
