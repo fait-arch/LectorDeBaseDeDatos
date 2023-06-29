@@ -5,9 +5,10 @@
     Orden:
         El código proporcionado es un programa destinado a la interaccion con una base de datos.
         Ofrece opciones para imprimir tablas y ver datos organizados, ingresar valores adicionales en la base de 
-        datos, y opciones para salir del programa. 
+        datos, y opciones para salir del programa, . 
         Es una herramienta conveniente para explorar y administrar datos de manera rapido.
-    
+
+        El prgrama fue desarollado por Nico y Juan
 '''
 
 
