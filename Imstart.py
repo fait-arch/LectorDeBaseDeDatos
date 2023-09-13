@@ -25,13 +25,43 @@ import shutil
 from colorama import Fore, Style
 import random
 
-
-
+#
+#
+#
+# Pregunta al usuario si quiere ingresar su propio nombre o utilizar el nombre predeterminado
+while True:
+    # Pregunta al usuario si quiere ingresar su propio nombre o utilizar el nombre predeterminado
+    opcion = input(f"{Fore.LIGHTYELLOW_EX}¿Deseas ingresar tu propio nombre? (1/0): {Style.RESET_ALL}").strip().lower()
+    # Si elige "Sí", solicita el nombre al usuario
+    if opcion == "1":
+        nombreServer = input("Ingresa tu nombre de servidor: ")
+        # Configura la cadena de conexión
+        connection_string = f'Driver=ODBC Driver 17 for SQL Server;Server={nombreServer};Trusted_Connection=yes;'
+        try:
+            # Conecta a SQL Server
+            conn = pyodbc.connect(connection_string)
+            # Crea un cursor
+            cursor = conn.cursor()
+            # Consulta para obtener los nombres de las bases de datos
+            query = "SELECT name FROM sys.databases WHERE database_id > 4"  # Excluye bases de datos del sistema
+            # Ejecuta la consulta
+            cursor.execute(query)
+            # Recorre los resultados y agrega los nombres a la lista
+            databaseNames = [row[0] for row in cursor.fetchall()]
+            # Cierra el cursor y la conexión
+            cursor.close()
+            conn.close()
+            break
+        except pyodbc.Error as e:
+            print(f"Error: {e}")
+    elif opcion == "0":
+        nombreServer = "DESKTOP-F5TMUR9"
+        break
+    else:
+        print("Opción no válida. Por favor, responde '1' o '0'.")
 # Configura la cadena de conexión
-server_name = 'DESKTOP-F5TMUR9'  # Reemplaza con el nombre de tu servidor SQL Server
-connection_string = f'Driver=ODBC Driver 17 for SQL Server;Server={server_name};Trusted_Connection=yes;'
-databaseNames = []  # Crear una lista para almacenar los nombres de las bases de datos
-
+connection_string = f'Driver=ODBC Driver 17 for SQL Server;Server={nombreServer};Trusted_Connection=yes;'
+databaseNames = []                  # Crear una lista para almacenar los nombres de las bases de datos
 try:
     # Conecta a SQL Server
     conn = pyodbc.connect(connection_string)
@@ -49,7 +79,7 @@ try:
     conn.close()
 except pyodbc.Error as e:
     print(f"Error: {e}")
-# Imprimir los nombres de las bases de datos en el formato deseado
+# Imprimir los nombres de las bases de datos 
 print(f"""  
 ██{Fore.LIGHTRED_EX}▓    ▓{Style.RESET_ALL}█████  ▄████▄  ▄▄▄█████{Fore.YELLOW}▓ ▒{Style.RESET_ALL}█████   ██▀███   ▄▄▄▄   ▓█████▄ ▓█████▄ 
 {Fore.LIGHTRED_EX}▓{Style.RESET_ALL}██{Fore.YELLOW}▒    {Style.RESET_ALL}{Fore.LIGHTRED_EX}▓{Style.RESET_ALL}█   ▀ {Fore.YELLOW}▒{Style.RESET_ALL}██▀ ▀█{Fore.YELLOW}  ▓  {Style.RESET_ALL}██{Fore.YELLOW}▒ ▓▒▒{Style.RESET_ALL}██{Fore.YELLOW}▒  {Style.RESET_ALL}██{Fore.YELLOW}▒▓{Style.RESET_ALL}██ {Fore.YELLOW}▒ {Style.RESET_ALL}██{Fore.YELLOW}▒▓{Style.RESET_ALL}█████▄ {Fore.YELLOW}▒{Style.RESET_ALL}██▀ ██▌{Fore.YELLOW}▒{Style.RESET_ALL}██▀ ██▌
@@ -64,40 +94,23 @@ print(f"""
 {Fore.GREEN}Autor: Jub1101{Style.RESET_ALL}
 
 
-{Fore.MAGENTA}[: :] Seleccione la base de datos [: :]{Style.RESET_ALL}
+{Fore.MAGENTA}[:] Seleccione la base de datos [::]{Style.RESET_ALL}
 """)
-# Enumera e imprime los nombres de las bases de datos en el formato deseado
 for i, name in enumerate(databaseNames, 1):
     print(f"{Fore.RED}[{i}.]{Style.RESET_ALL} {Fore.LIGHTYELLOW_EX}{name}{Style.RESET_ALL}")
-
-
 # Solicitar al usuario que ingrese un número
 while True:
     try:
         max_numero = len(databaseNames)
-        seleccion = int(input(f"Seleccione un número de base de datos (1 al {max_numero}): "))
+        seleccion = int(input(f"\n\n {Fore.GREEN}Seleccione un número de base de datos (1 al {max_numero}): {Style.RESET_ALL}"))
         if 1 <= seleccion <= max_numero:
             nombreDatabase = databaseNames[seleccion - 1]
             break
         else:
-            print(f"Número fuera de rango. Por favor, seleccione un número entre 1 y {max_numero}.")
+            print(f"{Fore.GREEN}Número fuera de rango. Por favor, seleccione un número entre 1 y {max_numero}.{Style.RESET_ALL}")
     except ValueError:
         print("Entrada no válida. Ingrese un número válido.")
 
-print(f"Ha seleccionado la base de datos: {nombreDatabase}")
-
-
-
-
-
-
-
-
-
-
-
-#Nombre de mi server
-nombreServer    =   "DESKTOP-F5TMUR9"
 
 
 #
@@ -146,20 +159,25 @@ def imprimirEncabezado():                           #Imprimir Cabesilla
 
     # Mensaje a imprimir
     message = f"""
+        ██{Fore.LIGHTRED_EX}▓    ▓{Style.RESET_ALL}█████  ▄████▄  ▄▄▄█████{Fore.YELLOW}▓ ▒{Style.RESET_ALL}█████   ██▀███   ▄▄▄▄   ▓█████▄ ▓█████▄ 
+        {Fore.LIGHTRED_EX}▓{Style.RESET_ALL}██{Fore.YELLOW}▒    {Style.RESET_ALL}{Fore.LIGHTRED_EX}▓{Style.RESET_ALL}█   ▀ {Fore.YELLOW}▒{Style.RESET_ALL}██▀ ▀█{Fore.YELLOW}  ▓  {Style.RESET_ALL}██{Fore.YELLOW}▒ ▓▒▒{Style.RESET_ALL}██{Fore.YELLOW}▒  {Style.RESET_ALL}██{Fore.YELLOW}▒▓{Style.RESET_ALL}██ {Fore.YELLOW}▒ {Style.RESET_ALL}██{Fore.YELLOW}▒▓{Style.RESET_ALL}█████▄ {Fore.YELLOW}▒{Style.RESET_ALL}██▀ ██▌{Fore.YELLOW}▒{Style.RESET_ALL}██▀ ██▌
+        {Fore.YELLOW}▒{Style.RESET_ALL}██{Fore.YELLOW}▒    ▒{Style.RESET_ALL}███   {Fore.YELLOW}▒{Style.RESET_ALL}{Fore.LIGHTRED_EX}▓{Style.RESET_ALL}█    ▄{Fore.YELLOW} ▒ ▓{Style.RESET_ALL}██{Fore.YELLOW}░ ▒░▒{Style.RESET_ALL}██{Fore.YELLOW}░  {Style.RESET_ALL}██{Fore.YELLOW}▒▓{Style.RESET_ALL}██ {Fore.YELLOW}░{Style.RESET_ALL}▄█ {Fore.YELLOW}▒▒{Style.RESET_ALL}██▒ ▄██{Fore.YELLOW}░{Style.RESET_ALL}██   █▌{Fore.YELLOW}░{Style.RESET_ALL}██   █▌
+        {Fore.YELLOW}▒{Style.RESET_ALL}██{Fore.YELLOW}▒    ▒▓{Style.RESET_ALL}█  ▄ {Fore.YELLOW}▒{Style.RESET_ALL}{Fore.LIGHTRED_EX}▓▓{Style.RESET_ALL}▄ ▄██{Fore.YELLOW}▒░ ▓{Style.RESET_ALL}██{Fore.YELLOW}▓ ░ ▒{Style.RESET_ALL}██   ██{Fore.YELLOW}░▒{Style.RESET_ALL}██▀▀█▄  {Fore.YELLOW}▒{Style.RESET_ALL}██░█▀  ░▓{Style.RESET_ALL}█▄   ▌{Fore.YELLOW}░▓{Style.RESET_ALL}█▄   ▌
+        {Fore.YELLOW}░{Style.RESET_ALL}██████{Fore.YELLOW}▒░▒{Style.RESET_ALL}████{Fore.YELLOW}▒▒ {Style.RESET_ALL}{Fore.LIGHTRED_EX}▓{Style.RESET_ALL}███▀{Fore.YELLOW} ░  ▒{Style.RESET_ALL}██{Fore.YELLOW}▒ ░ ░ {Style.RESET_ALL}████{Fore.YELLOW}▓▒░░{Style.RESET_ALL}██▓ ▒██{Fore.YELLOW}▒░▓{Style.RESET_ALL}█  ▀█{Fore.YELLOW}▓░▒{Style.RESET_ALL}████{Fore.YELLOW}▓ ░▒{Style.RESET_ALL}████▓ 
+        {Fore.YELLOW}░ ▒░▓  ░░░ ▒░ ░░ ░▒ ▒  ░  ▒ ░░   ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░░▒▓{Style.RESET_ALL}███▀{Fore.YELLOW}▒ ▒▒▓  ▒  ▒▒▓  ▒ 
+        {Fore.YELLOW}░ ░ ▒  ░ ░ ░  ░  ░  ▒       ░      ░ ▒ ▒░   ░▒ ░ ▒░▒░▒   ░  ░ ▒  ▒  ░ ▒  ▒ {Style.RESET_ALL}
+        {Fore.YELLOW}  ░ ░      ░   ░          ░      ░ ░ ░ ▒    ░░   ░  ░    ░  ░ ░  ░  ░ ░  ░ {Style.RESET_ALL}
+        {Fore.YELLOW}    ░  ░   ░  ░░ ░                   ░ ░     ░      ░         ░       ░    {Style.RESET_ALL}
+        {Fore.YELLOW}               ░                                         ░  ░       ░   {Style.RESET_ALL}{Fore.GREEN}Vercion: 1.01{Style.RESET_ALL}   
+        {Fore.GREEN}Autor: Jub1101{Style.RESET_ALL}
+    --------------------------------------------------------------------------------------------
+
+    """        
     
     
-    {Fore.GREEN}8888888                        888                     888{Style.RESET_ALL}    
-      {Fore.GREEN}888                          888                     888{Style.RESET_ALL}    
-      {Fore.GREEN}888                          888                     888{Style.RESET_ALL}    
-      {Fore.GREEN}888   88888b.d88b.  .d8888b  888888  8888b.  888d888 888888{Style.RESET_ALL} 
-      {Fore.GREEN}888   888 "888 "88b 88K      888        "88b 888P"   888{Style.RESET_ALL}    
-      {Fore.GREEN}888   888  888  888 "Y8888b. 888    .d888888 888     888{Style.RESET_ALL}    
-      {Fore.GREEN}888   888  888  888      X88 Y88b.  888  888 888     Y88b.{Style.RESET_ALL}  
-    {Fore.GREEN}8888888 888  888  888  88888P'  "Y888 "Y888888 888      "Y888{Style.RESET_ALL} 
-                                                              
-    -----------------------------------------------------------------------         
-    """
-    
+        
+
+
     # Calcular el espaciado para centrar horizontalmente
     text_width = len(message.split('\n')[2])
     padding = (terminal_width - text_width) // 2 - 35  # 4 espacios adicionales antes del centrado
@@ -483,7 +501,6 @@ def ingresoDatosaTabla():                           #Ingresa la tabla escojida [
     #
     #
     return funciono
-
 def generarDiseno():                                #Genera Estrellas
     ancho = 200  # Ancho del diseño
     alto = 20  # Alto del diseño
