@@ -1,0 +1,7 @@
+pyodbc
+msvcrt
+os
+subprocess
+shutil
+colorama
+random

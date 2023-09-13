@@ -10,6 +10,10 @@
 
         El prgrama fue desarollado por jub1101 y cnlund/Nico Luna, jub1101 se encargo del desarollo del pryecto y cnlund
         en la correcion de errores para el ingreso de datos y fue crucial en la 
+
+    EJECUTAR Comanndo de Ejecucion de instalacion de librerias:
+        pip install -r Comando_Instalacion/requirements.txt
+
 '''
 
 
@@ -153,37 +157,37 @@ def vienvenida (nombreServer, nombreDatabase):      #Imprime la Vienvenida
     # Imprimir el mensaje centrado horizontalmente
     print(mensaje.center(terminal_width))
 def imprimirEncabezado():                           #Imprimir Cabesilla
+# Limpiar la pantalla
     os.system('cls' if os.name == 'nt' else 'clear')
+
     # Obtener el ancho de la terminal
     terminal_width = shutil.get_terminal_size().columns
 
+# Mensaje a imprimir
     # Mensaje a imprimir
     message = f"""
-        ██{Fore.LIGHTRED_EX}▓    ▓{Style.RESET_ALL}█████  ▄████▄  ▄▄▄█████{Fore.YELLOW}▓ ▒{Style.RESET_ALL}█████   ██▀███   ▄▄▄▄   ▓█████▄ ▓█████▄ 
-        {Fore.LIGHTRED_EX}▓{Style.RESET_ALL}██{Fore.YELLOW}▒    {Style.RESET_ALL}{Fore.LIGHTRED_EX}▓{Style.RESET_ALL}█   ▀ {Fore.YELLOW}▒{Style.RESET_ALL}██▀ ▀█{Fore.YELLOW}  ▓  {Style.RESET_ALL}██{Fore.YELLOW}▒ ▓▒▒{Style.RESET_ALL}██{Fore.YELLOW}▒  {Style.RESET_ALL}██{Fore.YELLOW}▒▓{Style.RESET_ALL}██ {Fore.YELLOW}▒ {Style.RESET_ALL}██{Fore.YELLOW}▒▓{Style.RESET_ALL}█████▄ {Fore.YELLOW}▒{Style.RESET_ALL}██▀ ██▌{Fore.YELLOW}▒{Style.RESET_ALL}██▀ ██▌
-        {Fore.YELLOW}▒{Style.RESET_ALL}██{Fore.YELLOW}▒    ▒{Style.RESET_ALL}███   {Fore.YELLOW}▒{Style.RESET_ALL}{Fore.LIGHTRED_EX}▓{Style.RESET_ALL}█    ▄{Fore.YELLOW} ▒ ▓{Style.RESET_ALL}██{Fore.YELLOW}░ ▒░▒{Style.RESET_ALL}██{Fore.YELLOW}░  {Style.RESET_ALL}██{Fore.YELLOW}▒▓{Style.RESET_ALL}██ {Fore.YELLOW}░{Style.RESET_ALL}▄█ {Fore.YELLOW}▒▒{Style.RESET_ALL}██▒ ▄██{Fore.YELLOW}░{Style.RESET_ALL}██   █▌{Fore.YELLOW}░{Style.RESET_ALL}██   █▌
-        {Fore.YELLOW}▒{Style.RESET_ALL}██{Fore.YELLOW}▒    ▒▓{Style.RESET_ALL}█  ▄ {Fore.YELLOW}▒{Style.RESET_ALL}{Fore.LIGHTRED_EX}▓▓{Style.RESET_ALL}▄ ▄██{Fore.YELLOW}▒░ ▓{Style.RESET_ALL}██{Fore.YELLOW}▓ ░ ▒{Style.RESET_ALL}██   ██{Fore.YELLOW}░▒{Style.RESET_ALL}██▀▀█▄  {Fore.YELLOW}▒{Style.RESET_ALL}██░█▀  ░▓{Style.RESET_ALL}█▄   ▌{Fore.YELLOW}░▓{Style.RESET_ALL}█▄   ▌
-        {Fore.YELLOW}░{Style.RESET_ALL}██████{Fore.YELLOW}▒░▒{Style.RESET_ALL}████{Fore.YELLOW}▒▒ {Style.RESET_ALL}{Fore.LIGHTRED_EX}▓{Style.RESET_ALL}███▀{Fore.YELLOW} ░  ▒{Style.RESET_ALL}██{Fore.YELLOW}▒ ░ ░ {Style.RESET_ALL}████{Fore.YELLOW}▓▒░░{Style.RESET_ALL}██▓ ▒██{Fore.YELLOW}▒░▓{Style.RESET_ALL}█  ▀█{Fore.YELLOW}▓░▒{Style.RESET_ALL}████{Fore.YELLOW}▓ ░▒{Style.RESET_ALL}████▓ 
-        {Fore.YELLOW}░ ▒░▓  ░░░ ▒░ ░░ ░▒ ▒  ░  ▒ ░░   ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░░▒▓{Style.RESET_ALL}███▀{Fore.YELLOW}▒ ▒▒▓  ▒  ▒▒▓  ▒ 
-        {Fore.YELLOW}░ ░ ▒  ░ ░ ░  ░  ░  ▒       ░      ░ ▒ ▒░   ░▒ ░ ▒░▒░▒   ░  ░ ▒  ▒  ░ ▒  ▒ {Style.RESET_ALL}
-        {Fore.YELLOW}  ░ ░      ░   ░          ░      ░ ░ ░ ▒    ░░   ░  ░    ░  ░ ░  ░  ░ ░  ░ {Style.RESET_ALL}
-        {Fore.YELLOW}    ░  ░   ░  ░░ ░                   ░ ░     ░      ░         ░       ░    {Style.RESET_ALL}
-        {Fore.YELLOW}               ░                                         ░  ░       ░   {Style.RESET_ALL}{Fore.GREEN}Vercion: 1.01{Style.RESET_ALL}   
-        {Fore.GREEN}Autor: Jub1101{Style.RESET_ALL}
-    --------------------------------------------------------------------------------------------
-
+██{Fore.LIGHTRED_EX}▓    ▓{Style.RESET_ALL}█████  ▄████▄  ▄▄▄█████{Fore.YELLOW}▓ ▒{Style.RESET_ALL}█████   ██▀███   ▄▄▄▄   ▓█████▄ ▓█████▄ 
+{Fore.LIGHTRED_EX}▓{Style.RESET_ALL}██{Fore.YELLOW}▒    {Style.RESET_ALL}{Fore.LIGHTRED_EX}▓{Style.RESET_ALL}█   ▀ {Fore.YELLOW}▒{Style.RESET_ALL}██▀ ▀█{Fore.YELLOW}  ▓  {Style.RESET_ALL}██{Fore.YELLOW}▒ ▓▒▒{Style.RESET_ALL}██{Fore.YELLOW}▒  {Style.RESET_ALL}██{Fore.YELLOW}▒▓{Style.RESET_ALL}██ {Fore.YELLOW}▒ {Style.RESET_ALL}██{Fore.YELLOW}▒▓{Style.RESET_ALL}█████▄ {Fore.YELLOW}▒{Style.RESET_ALL}██▀ ██▌{Fore.YELLOW}▒{Style.RESET_ALL}██▀ ██▌
+{Fore.YELLOW}▒{Style.RESET_ALL}██{Fore.YELLOW}▒    ▒{Style.RESET_ALL}███   {Fore.YELLOW}▒{Style.RESET_ALL}{Fore.LIGHTRED_EX}▓{Style.RESET_ALL}█    ▄{Fore.YELLOW} ▒ ▓{Style.RESET_ALL}██{Fore.YELLOW}░ ▒░▒{Style.RESET_ALL}██{Fore.YELLOW}░  {Style.RESET_ALL}██{Fore.YELLOW}▒▓{Style.RESET_ALL}██ {Fore.YELLOW}░{Style.RESET_ALL}▄█ {Fore.YELLOW}▒▒{Style.RESET_ALL}██▒ ▄██{Fore.YELLOW}░{Style.RESET_ALL}██   █▌{Fore.YELLOW}░{Style.RESET_ALL}██   █▌
+{Fore.YELLOW}▒{Style.RESET_ALL}██{Fore.YELLOW}▒    ▒▓{Style.RESET_ALL}█  ▄ {Fore.YELLOW}▒{Style.RESET_ALL}{Fore.LIGHTRED_EX}▓▓{Style.RESET_ALL}▄ ▄██{Fore.YELLOW}▒░ ▓{Style.RESET_ALL}██{Fore.YELLOW}▓ ░ ▒{Style.RESET_ALL}██   ██{Fore.YELLOW}░▒{Style.RESET_ALL}██▀▀█▄  {Fore.YELLOW}▒{Style.RESET_ALL}██░█▀  ░▓{Style.RESET_ALL}█▄   ▌{Fore.YELLOW}░▓{Style.RESET_ALL}█▄   ▌
+{Fore.YELLOW}░{Style.RESET_ALL}██████{Fore.YELLOW}▒░▒{Style.RESET_ALL}████{Fore.YELLOW}▒▒ {Style.RESET_ALL}{Fore.LIGHTRED_EX}▓{Style.RESET_ALL}███▀{Fore.YELLOW} ░  ▒{Style.RESET_ALL}██{Fore.YELLOW}▒ ░ ░ {Style.RESET_ALL}████{Fore.YELLOW}▓▒░░{Style.RESET_ALL}██▓ ▒██{Fore.YELLOW}▒░▓{Style.RESET_ALL}█  ▀█{Fore.YELLOW}▓░▒{Style.RESET_ALL}████{Fore.YELLOW}▓ ░▒{Style.RESET_ALL}████▓ 
+{Fore.YELLOW}░ ▒░▓  ░░░ ▒░ ░░ ░▒ ▒  ░  ▒ ░░   ░ ▒░▒░▒░ ░ ▒▓ ░▒▓░░▒▓{Style.RESET_ALL}███▀{Fore.YELLOW}▒ ▒▒▓  ▒  ▒▒▓  ▒ 
+{Fore.YELLOW}░ ░ ▒  ░ ░ ░  ░  ░  ▒       ░      ░ ▒ ▒░   ░▒ ░ ▒░▒░▒   ░  ░ ▒  ▒  ░ ▒  ▒ {Style.RESET_ALL}
+{Fore.YELLOW}  ░ ░      ░   ░          ░      ░ ░ ░ ▒    ░░   ░  ░    ░  ░ ░  ░  ░ ░  ░ {Style.RESET_ALL}
+{Fore.YELLOW}    ░  ░   ░  ░░ ░                   ░ ░     ░      ░         ░       ░    {Style.RESET_ALL}
+{Fore.YELLOW}               ░                                         ░  ░       ░   {Style.RESET_ALL}{Fore.GREEN}Vercion: 1.01{Style.RESET_ALL}   
+{Fore.GREEN}Autor: Jub1101{Style.RESET_ALL}
+    -------------------------------------------------------------------------------------------
+    
     """        
-    
-    
-        
-
 
     # Calcular el espaciado para centrar horizontalmente
-    text_width = len(message.split('\n')[2])
-    padding = (terminal_width - text_width) // 2 - 35  # 4 espacios adicionales antes del centrado
+    text_width = max(len(line) for line in message.split('\n'))
+    padding = (terminal_width - text_width) // 2
+
     # Imprimir el mensaje con el espaciado adecuado
     for line in message.split('\n'):
-        print(' ' * padding + ' ' * 4 + line)
+        print(' ' * padding + line)
 def pausar():                                       #Pausar pantalla
     print("\n\nPresiona una tecla para continuar...")
     msvcrt.getch()
@@ -222,7 +226,7 @@ def imprimirTablasNombreColumna():                  #Imprime los nombres y los n
     tablas.remove("sysdiagrams")
 
     # Dividir las tablas en dos columnas
-    n = 21      #Espacio dentro de las tablas 
+    n = 10      #Espacio dentro de las tablas 
     mitad = len(tablas) // 2
     columna1 = tablas[:mitad]
     columna2 = tablas[mitad:]
