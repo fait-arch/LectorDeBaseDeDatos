@@ -488,14 +488,14 @@ def ingresoDatosaTabla():                           #Ingresa la tabla escojida [
     if(guardar=='e'):
        pausar()
 
-
-    while True:
-        repetir = input(f"""\n\n\t\t\t\t ⁉ 😳 Ingresamos un valor mas en la misma columna uwu? [{Fore.GREEN}s{Style.RESET_ALL}{Fore.BLUE}/{Style.RESET_ALL}{Fore.RED}n{Style.RESET_ALL}{Fore.BLUE}]{Style.RESET_ALL}  {Fore.BLUE}o [{Style.RESET_ALL}{Fore.MAGENTA}E{Style.RESET_ALL}{Fore.BLUE}]:  {Style.RESET_ALL}""")
+    continuar = True
+    while continuar:
+        repetir = input(f"""\n\n\t\t\t\t ⁉ 😈 Ingresamos un valor mas en la misma columna uwu? [{Fore.GREEN}s{Style.RESET_ALL}{Fore.BLUE}/{Style.RESET_ALL}{Fore.RED}n{Style.RESET_ALL}{Fore.BLUE}]{Style.RESET_ALL}  {Fore.BLUE}:  {Style.RESET_ALL}""")
         repetir = repetir.lower()
         if repetir == 's':
             ingresoDatosaTabla()
         elif repetir == 'n':        
-            break
+            continuar = False
         else:
             print(f"\n\t\t\t\t{Fore.RED}Error:{Style.RESET_ALL} Opción inválida. Por favor, ingresa 's' o 'n'. Inténtalo nuevamente.")
 
