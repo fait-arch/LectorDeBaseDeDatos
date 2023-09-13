@@ -147,7 +147,7 @@ def vienvenida (nombreServer, nombreDatabase):      #Imprime la Vienvenida
         ║                                                                                ║
         ║                                                                                ║
         ║                __________________                                              ║
-        ║               |   version 1.2    |                                             ║
+        ║               |   version 1.01   |                                             ║
         ║               |__________________|                                             ║
         ║       (●'◡'●)/                                                                   
         ╚════════════════════════════════════════════════════════════════════════════════╝"""
@@ -505,6 +505,7 @@ def ingresoDatosaTabla():                           #Ingresa la tabla escojida [
     #
     #
     return funciono
+
 def generarDiseno():                                #Genera Estrellas
     ancho = 200  # Ancho del diseño
     alto = 20  # Alto del diseño
