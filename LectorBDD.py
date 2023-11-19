@@ -175,7 +175,7 @@ def imprimirEncabezado():                           #Imprimir Cabesilla
 {Fore.YELLOW}░ ░ ▒  ░ ░ ░  ░  ░  ▒       ░      ░ ▒ ▒░   ░▒ ░ ▒░▒░▒   ░  ░ ▒  ▒  ░ ▒  ▒ {Style.RESET_ALL}
 {Fore.YELLOW}  ░ ░      ░   ░          ░      ░ ░ ░ ▒    ░░   ░  ░    ░  ░ ░  ░  ░ ░  ░ {Style.RESET_ALL}
 {Fore.YELLOW}    ░  ░   ░  ░░ ░                   ░ ░     ░      ░         ░       ░    {Style.RESET_ALL}
-{Fore.YELLOW}               ░                                         ░  ░       ░   {Style.RESET_ALL}{Fore.GREEN}Vercion: 1.01{Style.RESET_ALL}   
+{Fore.YELLOW}               ░                                         ░  ░       ░   {Style.RESET_ALL}{Fore.GREEN}Version: 1.01{Style.RESET_ALL}   
 {Fore.GREEN}Autor: Jub1101{Style.RESET_ALL}
     -------------------------------------------------------------------------------------------
     
