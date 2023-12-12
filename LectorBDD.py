@@ -94,8 +94,8 @@ print(f"""
 {Fore.YELLOW}░ ░ ▒  ░ ░ ░  ░  ░  ▒       ░      ░ ▒ ▒░   ░▒ ░ ▒░▒░▒   ░  ░ ▒  ▒  ░ ▒  ▒ {Style.RESET_ALL}
 {Fore.YELLOW}  ░ ░      ░   ░          ░      ░ ░ ░ ▒    ░░   ░  ░    ░  ░ ░  ░  ░ ░  ░ {Style.RESET_ALL}
 {Fore.YELLOW}    ░  ░   ░  ░░ ░                   ░ ░     ░      ░         ░       ░    {Style.RESET_ALL}
-{Fore.YELLOW}               ░                                         ░  ░       ░   {Style.RESET_ALL}{Fore.GREEN}Vercion: 1.01{Style.RESET_ALL}   
-{Fore.GREEN}Autor: Jub1101{Style.RESET_ALL}
+{Fore.YELLOW}               ░                                         ░  ░       ░   {Style.RESET_ALL}{Fore.GREEN}Vercion: 1.04{Style.RESET_ALL}   
+{Fore.GREEN}Autor: fait-arch{Style.RESET_ALL}
 
 
 {Fore.MAGENTA}[:] Seleccione la base de datos [::]{Style.RESET_ALL}
